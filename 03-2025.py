@@ -1,4 +1,4 @@
-# Mar 4
+# Mar 5
 def coloredCells(self, n: int) -> int:
     # prev = 1
     # for i in range(2, n + 1):
@@ -7,7 +7,7 @@ def coloredCells(self, n: int) -> int:
 
     return 2 * n * (n - 1) + 1
 
-# Mar 5
+# Mar 6
 def findMissingAndRepeatedValues(self, grid: List[List[int]]) -> List[int]:
     n = len(grid)
     s = set()
@@ -23,3 +23,37 @@ def findMissingAndRepeatedValues(self, grid: List[List[int]]) -> List[int]:
     
     missing = (n*n * (n*n + 1) // 2) - summ + duplicate
     return [duplicate, missing]
+
+# Mar 7
+def closestPrimes(self, left: int, right: int) -> List[int]:
+    nums = [0 for _ in range(right + 1)]
+    nums[0] = 1
+    nums[1] = 1
+
+    for i in range(2, right):
+        if nums[i] == 0:
+            multiple = i * 2
+            while multiple <= right:
+                nums[multiple] = 1
+                multiple += i
+    
+    prev = None
+    minn = float('inf')
+    start = None
+    for i in range(left, right + 1):
+        if nums[i] == 0:
+            if not prev:
+                prev = i
+            else:
+                if i - prev < minn:
+                    start = prev
+                    minn = i - prev
+                prev = i
+        
+        if minn == 2:
+            return [start, start + 2]
+    
+    if not start:
+        return [-1, -1]
+    
+    return [start, start + minn]
