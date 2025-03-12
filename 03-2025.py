@@ -57,3 +57,65 @@ def closestPrimes(self, left: int, right: int) -> List[int]:
         return [-1, -1]
     
     return [start, start + minn]
+
+# Mar 12
+def maximumCount(self, nums: List[int]) -> int:
+    negative = 0
+    positive = 0
+    # find last negative occurence
+    left = 0
+    right = len(nums) - 1
+    while left <= right:
+        middle = (left + right) // 2
+        if middle == 0:
+            if nums[0] < 0:
+                negative = 1
+            else:
+                negative = 0
+            break
+
+        if middle == len(nums) - 1:
+            if nums[-1] < 0:
+                negative = len(nums)
+            else:
+                negative = len(nums) - 1
+            break
+
+        if nums[middle - 1] < 0 and nums[middle] < 0 and nums[middle + 1] >= 0:
+            negative = middle + 1
+            break
+        
+        if nums[middle] >= 0:
+            right = middle - 1
+        else:
+            left = middle + 1
+        
+    # find first positive occurence
+    left = 0
+    right = len(nums) - 1
+    while left <= right:
+        middle = (left + right) // 2
+        if middle == 0:
+            if nums[0] > 0:
+                positive = len(nums)
+            else:
+                positive = len(nums) - 1
+            break
+
+        if middle == len(nums) - 1:
+            if nums[-1] > 0:
+                positive = 1
+            else:
+                positive = 0
+            break
+
+        if nums[middle - 1] <= 0 and nums[middle] > 0 and nums[middle + 1] > 0:
+            positive = len(nums) - middle
+            break
+        
+        if nums[middle] <= 0:
+            left = middle + 1
+        else:
+            right = middle - 1
+    
+    return max(positive, negative)
