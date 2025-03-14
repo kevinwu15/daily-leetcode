@@ -119,3 +119,22 @@ def maximumCount(self, nums: List[int]) -> int:
             right = middle - 1
     
     return max(positive, negative)
+
+# Mar 14
+def maximumCandies(self, candies: List[int], k: int) -> int:
+    left = 1
+    right = max(candies)
+    maxx = 0
+
+    while left <= right:
+        curr = 0
+        middle = (left + right) // 2
+        for candy in candies:
+            curr += (candy // middle)
+        if curr >= k:
+            maxx = max(middle, maxx)
+            left = middle + 1
+        else:
+            right = middle - 1
+    
+    return maxx
